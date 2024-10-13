@@ -3,10 +3,11 @@ This project is designed to implement a Microservices Architecture (MSA). It aim
 Each service is responsible for a specific functionality, allowing for easier development, testing, and deployment.
 
 Features
-Modular design with separate microservices
-RESTful API communication between services
-Easy scalability and maintainability
-Containerization support (e.g., Docker)
-Sample integration and deployment scripts
+* Modular design with separate microservices
+* RESTful API communication between services
+* Easy scalability and maintainability
+* Containerization support (e.g., Docker)
+* Sample integration and deployment scripts
+
 Getting Started
 [Instructions on how to set up the project]
