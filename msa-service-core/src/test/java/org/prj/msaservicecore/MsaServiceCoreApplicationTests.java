@@ -1,9 +1,8 @@
 package org.prj.msaservicecore;
-
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootTest
+@SpringBootApplication
 class MsaServiceCoreApplicationTests {
 
     @Test

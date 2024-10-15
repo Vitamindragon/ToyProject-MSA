@@ -1,0 +1,21 @@
+server:
+  port: 8000
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+spring:
+  application:
+    name: msa-service-gateway
+
+
+  cloud:
+    config:
+      enabled: false
