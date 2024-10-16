@@ -4,7 +4,6 @@ server:
 spring:
   application:
     name: msa-service-user
-
   h2:
     console:
       enabled: true

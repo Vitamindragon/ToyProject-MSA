@@ -1,15 +1,14 @@
-package org.prj.user;
+package org.prj;
 
-import org.prj.core.entity.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@SpringBootApplication
+@EnableDiscoveryClient
+@SpringBootApplication(scanBasePackages = {"org.prj.user", "org.prj.core"})
 public class MsaServiceUserApplication {
 
     public static void main(String[] args) {
-
-        Test test = new Test();
         SpringApplication.run(MsaServiceUserApplication.class, args);
     }
 
