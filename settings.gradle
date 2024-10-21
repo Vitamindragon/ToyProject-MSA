@@ -3,4 +3,6 @@ include 'msa-service-core'
 include 'msa-service-discovery'
 include 'msa-service-gateway'
 include 'msa-service-user'
+include 'msa-service-catalog'
+include 'msa-service-order'
 

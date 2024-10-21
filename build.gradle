@@ -46,6 +46,24 @@ project(':msa-service-user') {
     }
 }
 
+project(':msa-service-catalog') {
+    jar {
+        archivesBaseName = 'msa-service-catalog'
+    }
+    dependencies {
+        implementation project(':msa-service-core')
+    }
+}
+
+project(':msa-service-order') {
+    jar {
+        archivesBaseName = 'msa-service-order'
+    }
+    dependencies {
+        implementation project(':msa-service-core')
+    }
+}
+
 
 clean {
     delete file('src/main/generated')
