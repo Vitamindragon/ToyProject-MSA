@@ -15,7 +15,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/users/**", "/members/**","/catalogs/**","/inventory/**")
+                .antMatchers("/users/**","/catalogs/**","/orders/**","/h2-console/**")
                 .permitAll()
                 .anyRequest().authenticated(); // 나머지 요청은 인증 필요
 

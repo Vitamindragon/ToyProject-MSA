@@ -28,9 +28,12 @@ public class RouteConfig {
                                 .filter(customerFilter.apply(new CustomerFilter.Config()))
                         )
                         .uri("lb://MSA-SERVICE-CATALOG"))
+                .route("order-service", r -> r.path("/msa/service/order/**")
+                        .filters(f -> f.rewritePath("/msa/service/order/(?<segment>.*)", "/${segment}")
+                                .filter(customerFilter.apply(new CustomerFilter.Config()))
+                        )
+                        .uri("lb://MSA-SERVICE-ORDER"))
                 .build();
     }
 
 }
-
-
