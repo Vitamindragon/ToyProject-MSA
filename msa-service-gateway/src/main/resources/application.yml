@@ -2,19 +2,81 @@ server:
   port: 8000
 
 eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
   client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
-    fetch-registry: true
     register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 spring:
   application:
     name: msa-service-gateway
 
   cloud:
+    gateway:
+      routes:
+        #1      [USER-SERVICE]
+        #        - id: user-service
+        #          uri: lb://MSA-SERVICE-USER
+        #          predicates:
+        #            - Path=/msa/service/user/**
+        #          filters:
+        #            - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
+        #            - CustomFilter
+
+        - id: user-service
+          uri: lb://MSA-SERVICE-USER
+          predicates:
+            - Path=/msa/service/user/login #???
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
+            - CustomFilter
+
+        - id: user-service
+          uri: lb://MSA-SERVICE-USER
+          predicates:
+            - Path=/msa/service/user/users #????
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
+            - CustomFilter
+
+        - id: user-service
+          uri: lb://MSA-SERVICE-USER
+          predicates:
+            - Path=/msa/service/user/** #MSA-SERVICE-USER
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        #2      [CATALOG-SERVICE]
+        - id: catalog-service
+          uri: lb://MSA-SERVICE-CATALOG
+          predicates:
+            - Path=/msa/service/catalog/**
+          filters:
+            - RewritePath=/msa/service/catalog(?<segment>.*), /$\{segment}
+            - CustomFilter
+        #3      [ORDER-SERVICE]
+        - id: order-service
+          uri: lb://MSA-SERVICE-ORDER
+          predicates:
+            - Path=/msa/service/order/**
+          filters:
+            - RewritePath=/msa/service/order(?<segment>.*), /$\{segment}
+            - CustomFilter
+
     config:
       enabled: false
+
+token:
+  expiration_time: 86400000 #1?
+  secret: user_token
+

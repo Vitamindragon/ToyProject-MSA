@@ -2,10 +2,9 @@ package org.prj.user.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.prj.user.web.dto.UserDTO;
-import org.prj.user.web.entity.User;
+import org.prj.user.web.entity.UserEntity;
 import org.prj.user.web.service.UserService;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +37,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllMembers() {
-        Iterable<User> memberList = userService.findAllMembers();
+        Iterable<UserEntity> memberList = userService.findAllMembers();
         List<UserDTO> result = new ArrayList<>();
         memberList.forEach(i ->
                 result.add(UserDTO.createMemberDTO(i.getEmail(), i.getName(), null)));
@@ -49,7 +48,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getMember(@PathVariable("userId") String userId) {
-        User findUser = userService.findByUserId(userId).get();
+        UserEntity findUser = userService.findByUserId(userId).get();
 
         UserDTO result = UserDTO.createMemberDTO(findUser.getEmail(), findUser.getName(), null);
         return ResponseEntity.status(OK).body(result);
@@ -59,14 +58,14 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDTO> createMember(@RequestBody UserDTO userDTO) {
 
-        User user = User.builder()
+        UserEntity user = UserEntity.builder()
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
-                .encryptedPwd(passwordEncoder.encode(userDTO.getPwd()))
+                .encryptedPwd(passwordEncoder.encode(userDTO.getPassword()))
                 .userId(randomUUID().toString())
                 .build();
 
-        User savedUser = userService.createMember(user).get();
+        UserEntity savedUser = userService.createMember(user).get();
         UserDTO result = UserDTO.createMemberDTO(savedUser.getEmail(), savedUser.getName(), null);
         return ResponseEntity.status(CREATED).body(result);
     }

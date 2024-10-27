@@ -1,10 +1,11 @@
 package org.prj.user.web.repository;
 
-import org.prj.user.web.entity.User;
+import org.prj.user.web.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User,Long> {
-    Optional<User> findByUserId(String userId);
+public interface UserRepository extends JpaRepository<UserEntity,Long> {
+    Optional<UserEntity> findByUserId(String userId);
+    Optional<UserEntity> findByEmail(String email);
 }

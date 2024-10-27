@@ -10,9 +10,10 @@ import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
+@Table(name = "User")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -30,7 +31,7 @@ public class User {
     private String userId;
 
     @Builder
-    public User(String email, String encryptedPwd, String name, String userId) {
+    public UserEntity(String email, String encryptedPwd, String name, String userId) {
         this.email = email;
         this.encryptedPwd = encryptedPwd;
         this.name = name;

@@ -1,14 +1,17 @@
 package org.prj.user.web.service;
 
-import org.prj.user.web.dto.UserDTO;
-import org.prj.user.web.entity.User;
+import org.prj.user.web.entity.UserEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import java.util.Optional;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
-    Optional<User> createMember(User user);
+    Optional<UserEntity> createMember(UserEntity user);
 
-    Optional<User> findByUserId(String userId);
+    Optional<UserEntity> findByUserId(String userId);
 
-    Iterable<User> findAllMembers();
+    Iterable<UserEntity> findAllMembers();
+
+    Optional<UserEntity> findByEmail(String email);
 }
