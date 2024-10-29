@@ -1,0 +1,27 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: msa-service-config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        git:
+          url: file:///Users/vitamindragon/Vitamindragon/Learning/ToyProject-MSA/spring-cloud-config
+
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+logging:
+  level:
+    org.prj.config: DEBUG

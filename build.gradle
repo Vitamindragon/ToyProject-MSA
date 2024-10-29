@@ -65,6 +65,7 @@ project(':msa-service-order') {
 }
 
 
+
 clean {
     delete file('src/main/generated')
 }

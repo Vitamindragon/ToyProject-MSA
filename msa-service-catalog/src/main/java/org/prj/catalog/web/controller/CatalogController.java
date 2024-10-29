@@ -5,7 +5,6 @@ import org.prj.catalog.web.dto.CatalogDTO;
 import org.prj.catalog.web.entity.Catalog;
 import org.prj.catalog.web.service.CatalogService;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

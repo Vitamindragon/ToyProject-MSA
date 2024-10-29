@@ -5,4 +5,4 @@ include 'msa-service-gateway'
 include 'msa-service-user'
 include 'msa-service-catalog'
 include 'msa-service-order'
-
+include 'msa-service-config'
