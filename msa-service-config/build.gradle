@@ -3,20 +3,15 @@ ext {
 }
 
 dependencies {
-//  # Spring Cloud
-    implementation 'org.springframework.cloud:spring-cloud-config-server'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
-//  # ETC
-    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+    //  # Spring Cloud
+    implementation 'org.springframework.cloud:spring-cloud-config-server:3.0.2'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.4.5'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp:3.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-test:2.4.5'
 
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 dependencyManagement {
