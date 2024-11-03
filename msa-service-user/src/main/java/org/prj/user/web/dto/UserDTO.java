@@ -2,6 +2,7 @@ package org.prj.user.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 
 @Data
 @JsonInclude(NON_NULL)
+@NoArgsConstructor
 public class UserDTO {
 
     @NotBlank(message = "Email cannot be null")
@@ -36,7 +38,7 @@ public class UserDTO {
         this.orders = orders;
     }
 
-    public static UserDTO createMemberDTO(String email, String name, List<OrderDTO> orders) {
+    public static UserDTO createUserDTO(String email, String name, List<OrderDTO> orders) {
         return new UserDTO(name, email, orders);
     }
 

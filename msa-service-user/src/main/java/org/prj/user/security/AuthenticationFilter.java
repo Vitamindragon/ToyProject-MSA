@@ -20,8 +20,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static java.time.LocalTime.now;
 
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -62,8 +66,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         String username = ((User) authResult.getPrincipal()).getUsername();
-        UserEntity userEntity = userService.findByEmail(username).get();
+        UserEntity userEntity = userService.getMemberByEmail(username).get();
+
         String token = Jwts.builder()
+                .setHeaderParam("type","jwt")
+                .setIssuedAt(new Date())
                 .setSubject(userEntity.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis() +
                         Long.parseLong(env.getProperty("token.expiration_time"))))

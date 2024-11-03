@@ -26,23 +26,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserEntity> findByUserId(String userId) {
+    public Optional<UserEntity> getMemberByUserId(String userId) {
         return userRepository.findByUserId(userId);
     }
 
     @Override
-    public Iterable<UserEntity> findAllMembers() {
+    public Iterable<UserEntity> getAllMembers() {
         return userRepository.findAll();
     }
 
     @Override
-    public Optional<UserEntity> findByEmail(String email) {
+    public Optional<UserEntity> getMemberByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity user = findByEmail(email).get();
+        UserEntity user = getMemberByEmail(email).get();
 
         if (user == null) {
             throw new UsernameNotFoundException(email + ": not found");

@@ -11,7 +11,7 @@ public class InventoryServiceImpl implements CatalogService{
     private final CatalogRepository catalogRepository;
 
     @Override
-    public Iterable<Catalog> findAllInventory() {
+    public Iterable<Catalog> getAllCatalogs() {
         return catalogRepository.findAll();
     }
 }

@@ -9,9 +9,9 @@ public interface UserService extends UserDetailsService {
 
     Optional<UserEntity> createMember(UserEntity user);
 
-    Optional<UserEntity> findByUserId(String userId);
+    Optional<UserEntity> getMemberByUserId(String userId);
 
-    Iterable<UserEntity> findAllMembers();
+    Iterable<UserEntity> getAllMembers();
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> getMemberByEmail(String email);
 }

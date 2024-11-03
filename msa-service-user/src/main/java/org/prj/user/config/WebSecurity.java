@@ -3,7 +3,6 @@ package org.prj.user.config;
 import lombok.RequiredArgsConstructor;
 import org.prj.user.security.AuthenticationFilter;
 import org.prj.user.web.service.UserService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,7 +28,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception { //Authoriztion(인가)에 관련된 설정
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/users/**", "/h2-console/**", "/login")
+                .antMatchers("/users/**", "/h2-console/**", "/login","/actuator/**")
                 .permitAll()
                 .and()
                 .addFilter(getAuthenticationFilter());

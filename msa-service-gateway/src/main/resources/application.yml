@@ -1,15 +1,6 @@
 server:
   port: 8000
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    instance:
-      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
 spring:
   application:
     name: msa-service-gateway
@@ -18,18 +9,10 @@ spring:
     gateway:
       routes:
         #1      [USER-SERVICE]
-        #        - id: user-service
-        #          uri: lb://MSA-SERVICE-USER
-        #          predicates:
-        #            - Path=/msa/service/user/**
-        #          filters:
-        #            - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
-        #            - CustomFilter
-
         - id: user-service
           uri: lb://MSA-SERVICE-USER
           predicates:
-            - Path=/msa/service/user/login #???
+            - Path=/msa/service/user/login
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
@@ -39,7 +22,7 @@ spring:
         - id: user-service
           uri: lb://MSA-SERVICE-USER
           predicates:
-            - Path=/msa/service/user/users #????
+            - Path=/msa/service/user/users
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
@@ -49,12 +32,22 @@ spring:
         - id: user-service
           uri: lb://MSA-SERVICE-USER
           predicates:
-            - Path=/msa/service/user/** #MSA-SERVICE-USER
+            - Path=/msa/service/user/**
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+
+        - id: user-service
+          uri: lb://MSA-SERVICE-USER
+          predicates:
+            - Path=/msa/service/user/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/msa/service/user(?<segment>.*), /$\{segment}
+
 
         #2      [CATALOG-SERVICE]
         - id: catalog-service
@@ -72,11 +65,27 @@ spring:
           filters:
             - RewritePath=/msa/service/order(?<segment>.*), /$\{segment}
             - CustomFilter
+        #4      [CONFIG-SERVICE]
+        - id: config-service
+          uri: lb://MSA-SERVICE-CONFIG
+          predicates:
+            - Path=/msa/service/config/**
+          filters:
+            - RewritePath=/msa/service/config(?<segment>.*), /$\{segment}
+            - CustomFilter
 
-    config:
-      enabled: false
 
-token:
-  expiration_time: 86400000 #1?
-  secret: user_token
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus

@@ -4,16 +4,6 @@ server:
 spring:
   application:
     name: msa-service-user
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-      path: /h2-console
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -31,8 +21,12 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 
-greeting:
-  message: Welcome to the Simple E-commerce.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus
 
-
-
+logging:
+  level:
+    org.prj.user: DEBUG

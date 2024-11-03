@@ -6,11 +6,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.server.EnableConfigServer;
 
 @EnableConfigServer
+@EnableDiscoveryClient
 @SpringBootApplication
-public class MsaServiceGatewayApplication {
+public class MsaServiceConfigApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MsaServiceGatewayApplication.class, args);
+        SpringApplication.run(MsaServiceConfigApplication.class, args);
     }
 
 }

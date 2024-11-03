@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.CREATED;
+
 
 @RestController
 @RequestMapping("/users")
@@ -25,9 +25,8 @@ public class UserController {
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
-
-    @GetMapping("/health_check")
+    // 서비스 상태 확인
+    @GetMapping("/status")
     public String status() {
         return String.format("It's Working in User Service"
                 + ", port(local.server.port)=" + env.getProperty("local.server.port")
@@ -38,30 +37,33 @@ public class UserController {
                 + ", token expiration time=" + env.getProperty("token.expiration_time"));
     }
 
-
+    // 모든 사용자 조회
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllMembers() {
-        Iterable<UserEntity> memberList = userService.findAllMembers();
+        Iterable<UserEntity> memberList = userService.getAllMembers();
         List<UserDTO> result = new ArrayList<>();
         memberList.forEach(i ->
-                result.add(UserDTO.createMemberDTO(i.getEmail(), i.getName(), null)));
-
+                result.add(UserDTO.createUserDTO(i.getEmail(), i.getName(), null)));
 
         return ResponseEntity.status(OK).body(result);
     }
 
+    // 특정 사용자 조회
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getMember(@PathVariable("userId") String userId) {
-        UserEntity findUser = userService.findByUserId(userId).get();
+        UserEntity findUser = userService.getMemberByUserId(userId).orElse(null);
 
-        UserDTO result = UserDTO.createMemberDTO(findUser.getEmail(), findUser.getName(), null);
+        if (findUser == null) {
+            return ResponseEntity.status(NOT_FOUND).build();
+        }
+
+        UserDTO result = UserDTO.createUserDTO(findUser.getEmail(), findUser.getName(), null);
         return ResponseEntity.status(OK).body(result);
     }
 
-
+    // 새 사용자 생성
     @PostMapping
     public ResponseEntity<UserDTO> createMember(@RequestBody UserDTO userDTO) {
-
         UserEntity user = UserEntity.builder()
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
@@ -69,9 +71,12 @@ public class UserController {
                 .userId(randomUUID().toString())
                 .build();
 
-        UserEntity savedUser = userService.createMember(user).get();
-        UserDTO result = UserDTO.createMemberDTO(savedUser.getEmail(), savedUser.getName(), null);
+        UserEntity savedUser = userService.createMember(user).orElse(null);
+        if (savedUser == null) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        }
+
+        UserDTO result = UserDTO.createUserDTO(savedUser.getEmail(), savedUser.getName(), null);
         return ResponseEntity.status(CREATED).body(result);
     }
-
 }

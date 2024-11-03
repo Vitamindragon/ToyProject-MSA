@@ -5,7 +5,11 @@ ext {
 dependencies {
 //  # Spring Cloud
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
 
 //  # ETC
     implementation 'org.modelmapper:modelmapper:2.4.4'
