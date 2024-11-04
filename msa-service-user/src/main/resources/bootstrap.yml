@@ -5,5 +5,5 @@ spring:
     config:
       uri: http://127.0.0.1:8888
       name: msa-service-user
-    refresh:
-      extra-refreshable: com.zaxxer.hikari.HikariDataSource
+#    refresh:
+#      extra-refreshable: com.zaxxer.hikari.HikariDataSource
