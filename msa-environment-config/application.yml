@@ -1,0 +1,23 @@
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: '{cipher}AYBOAYRaU1l9AECWgxrmLEH0ziRRkWV8+oFuyfyiMnwJ9K4IkOVuRU2WElu46QxB4Nzyo/cXqX18y52V0B8BI4Lcba5jIpv2jkuxRzQQJo18eQU/q1GW+R5gAacliL6QZf8rpsU9dia+W8DJjF+lycEzzbMECVKXoRAJtYXHU/sPXMU40MtQEnljspzge8BVDbdYGp93aIBA4l1QlZXXJgJhNhtDz+grmv1WtybxPobBuK23M1TVnA2wPZmGIrpXRYDc7a6ixQ+NBwglOmKaywqOFS+0O64x+kA5C0iilYgtwFspdhnO2LNu0w3xgv5DNylr7jjEOUUQC2PYuPCBfEUIsigrrAAXXaChnfY0v03E/0V1t8KlJUY/d40IPlVrxrnrHJzFsXT5m6w/GJ7y0LjhjHGjM4JI6K9+Nlr9yrpd75m8Oo2/T2aCLzOHLyiW8gaeiLALeYfZio3nKrIoOpmGt3jJ/UNoOMa5jBcV84ymP4NKe7opDTP+HamuxTwykRnjE7yx2JUZ1fcvq1TDQnrIaQtol3LaBcUWK8qqZb49HQ=='
+
+token:
+  expiration_time: 86400000
+  secret: '{cipher}AYAIL1aTVHOOkXY4rYAwNgtEN2I1RAgGBZVLF52RHglic+upx3YnfaqIJVeGK9ugdZxMm7GtF5vccv6CBXOhrhFsBNCbA1C+t/qQxtFkMNQKjC6tl6kXh9BoGoZg+ATW8DKss6JPgrbi2wz8dxueu8PUhgYkWTAId7R8YFA21f26YOIlH0ud/7hpafhkntEpES6UQpFwpiEtRBfcxD9bZP3Tp8rNjI1GpaHZkAkePOeqMEQxVyRuocSAmeNlid2R1joQH2tEOMPyuApxyzuD81PaMhf4+JZG04bBVXKptmd/5gApyu2s+0LoVcLzb0+32KClOlfamVUPptq6FNUAUL08ytGFs17EsLomvih2HiDaz9Q27K7/Qw2Ro9VuLrNpCH+KMKGZSmjL3qugZEUmxw9r8t04y2rimjsFuBTvyMu1IkPQjs7prF+8uAyF5vM0kLrD5jJAukUAtk0V3fyOix3doVs8SQ6iuUwJXvBUEy+foxbAPI0bHSaY4oVc0Oa+mVxjqrm8SxP5+2VDIIg5YVUGzxBA4weC3b83Gz5NDOffEfgxx+Rp2zJvybDC6NHUGvI='
