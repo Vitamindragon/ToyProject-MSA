@@ -11,7 +11,7 @@ spring:
 #        native:
 #          search-locations: file:///${user.home}/Vitamindragon/Learning/ToyProject-MSA/msa-environment-config
         git:
-          uri: https://github.com/joneconsulting/spring-cloud-config
+          uri: https://github.com/Vitamindragon/ToyProject-MSA
           search-paths: msa-environment-config
           default-label: main
 encrypt:
