@@ -11,8 +11,16 @@ spring:
       name: msa-service-config
 
       server:
-        native:
-          search-locations: file:///${user.home}/Vitamindragon/Learning/ToyProject-MSA/msa-environment-config
+#        native:
+#          search-locations: file:///${user.home}/Vitamindragon/Learning/ToyProject-MSA/msa-environment-config
         git:
           uri: https://github.com/joneconsulting/spring-cloud-config
+          search-paths: msa-environment-config
+          default-label: main
+encrypt:
+  key-store:
+    location: file://${user.home}/Vitamindragon/Learning/ToyProject-MSA/secret/keystore/apiEncryptionKey.jks
+    password: 1q2w3e4r
+    alias: apiEncryptionKey
+
 
