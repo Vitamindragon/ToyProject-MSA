@@ -3,7 +3,7 @@ spring:
     name: msa-service-config
 
   profiles:
-    active: local #native
+    active: local
 
   cloud:
     config:
