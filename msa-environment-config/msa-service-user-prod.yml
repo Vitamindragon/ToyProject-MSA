@@ -3,5 +3,5 @@ greeting:
 
 order-service:
   #  url: http://127.0.0.1:8000/order-service/%s/orders
-  url: http://ORDER-SERVICE/orders/users/%s/orders
+  url: http://MSA-SERVICE-ORDER/orders/users/%s/orders
 
