@@ -1,13 +1,17 @@
 package org.prj.user.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.prj.user.web.dto.OrderDTO;
 import org.prj.user.web.dto.UserDTO;
 import org.prj.user.web.entity.UserEntity;
 import org.prj.user.web.service.UserService;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ public class UserController {
     private final Environment env;
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RestTemplate restTemplate;
 
     // 서비스 상태 확인
     @GetMapping("/status")
@@ -57,7 +62,14 @@ public class UserController {
             return ResponseEntity.status(NOT_FOUND).build();
         }
 
-        UserDTO result = UserDTO.createUserDTO(findUser.getEmail(), findUser.getName(), null);
+        String orderUrl = String.format(env.getProperty("order-service.url"),userId);
+        ResponseEntity<List<OrderDTO>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<OrderDTO>>() {
+                });
+
+        List<OrderDTO> ordersList = orderListResponse.getBody();
+        UserDTO result = UserDTO.createUserDTO(findUser.getEmail(), findUser.getName(), ordersList);
+
         return ResponseEntity.status(OK).body(result);
     }
 
