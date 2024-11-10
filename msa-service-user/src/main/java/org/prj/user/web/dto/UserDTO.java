@@ -30,15 +30,15 @@ public class UserDTO {
     @Size(min = 8, message = "Password must be equal or grater than 8 characters")
     private String password;
 
-    private List<OrderDTO> orders;
+    private List<ResponseOrderDTO> orders;
 
-    public UserDTO(String email, String name, List<OrderDTO> orders) {
+    public UserDTO(String email, String name, List<ResponseOrderDTO> orders) {
         this.email = email;
         this.name = name;
         this.orders = orders;
     }
 
-    public static UserDTO createUserDTO(String email, String name, List<OrderDTO> orders) {
+    public static UserDTO createUserDTO(String email, String name, List<ResponseOrderDTO> orders) {
         return new UserDTO(name, email, orders);
     }
 

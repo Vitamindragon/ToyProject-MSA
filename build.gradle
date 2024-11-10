@@ -59,9 +59,9 @@ project(':msa-service-order') {
     jar {
         archivesBaseName = 'msa-service-order'
     }
-    dependencies {
-        implementation project(':msa-service-core')
-    }
+//    dependencies {
+//        implementation project(':msa-service-core')
+//    }
 }
 
 

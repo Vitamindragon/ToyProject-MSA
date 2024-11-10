@@ -1,7 +1,10 @@
 package org.prj.user.web.controller;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.prj.user.web.dto.OrderDTO;
+import lombok.extern.slf4j.Slf4j;
+import org.prj.user.web.client.feign.OrderServiceClient;
+import org.prj.user.web.dto.ResponseOrderDTO;
 import org.prj.user.web.dto.UserDTO;
 import org.prj.user.web.entity.UserEntity;
 import org.prj.user.web.service.UserService;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.UUID.randomUUID;
@@ -23,12 +27,14 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 @RequiredArgsConstructor
 public class UserController {
     private final Environment env;
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
+    private final OrderServiceClient orderClient;
 
     // 서비스 상태 확인
     @GetMapping("/status")
@@ -62,12 +68,27 @@ public class UserController {
             return ResponseEntity.status(NOT_FOUND).build();
         }
 
-        String orderUrl = String.format(env.getProperty("order-service.url"),userId);
-        ResponseEntity<List<OrderDTO>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<OrderDTO>>() {
-                });
+        //#1, REST TEMPLATE CALL
+//        String orderUrl = String.format(env.getProperty("order-service.url"),userId);
+//        ResponseEntity<List<ResponseOrderDTO>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+//                new ParameterizedTypeReference<List<ResponseOrderDTO>>() {
+//                });
+//
+//        List<ResponseOrderDTO> ordersList = orderListResponse.getBody();
 
-        List<OrderDTO> ordersList = orderListResponse.getBody();
+        //#2, OPEN FEIGN CALL
+        /* Feign exception handling */
+//        List<ResponseOrderDTO> ordersList = null;
+//        try {
+//            orderClient.getOrders(userId);
+//
+//        } catch (FeignException ex) {
+//            log.error(ex.getMessage());
+//        }
+
+        //#3, OPEN FEIGN CALL
+        /* Feign exception handling2 */
+        List<ResponseOrderDTO> ordersList = orderClient.getOrders(userId);
         UserDTO result = UserDTO.createUserDTO(findUser.getEmail(), findUser.getName(), ordersList);
 
         return ResponseEntity.status(OK).body(result);
@@ -91,4 +112,5 @@ public class UserController {
         UserDTO result = UserDTO.createUserDTO(savedUser.getEmail(), savedUser.getName(), null);
         return ResponseEntity.status(CREATED).body(result);
     }
+
 }

@@ -38,3 +38,7 @@ out/
 
 ### Security ###
 secret/
+
+### etc ###
+lib/
+

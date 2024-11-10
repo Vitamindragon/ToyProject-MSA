@@ -1,6 +1,9 @@
 package org.prj.core.config;
 
+import feign.Logger;
+import feign.codec.ErrorDecoder;
 import org.modelmapper.ModelMapper;
+import org.prj.core.error.FeignErrorDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -44,5 +47,17 @@ public class AppConfig {
     @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+
+    @Bean
+    public Logger.Level feinLoggerLevel(){
+        return Logger.Level.FULL;
+    }
+
+
+    @Bean
+    public ErrorDecoder errorDecoder(){
+        return new FeignErrorDecoder();
     }
 }
