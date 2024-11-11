@@ -1,6 +1,7 @@
 package org.prj.order.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.prj.order.message.queue.KafkaProducer;
 import org.prj.order.web.dto.RequestOrderDTO;
 import org.prj.order.web.dto.ResponseOrderDTO;
 import org.prj.order.web.entity.Order;
@@ -21,6 +22,8 @@ import static java.util.UUID.randomUUID;
 public class OrderController {
     private final Environment env;
     private final OrderService orderService;
+    private final KafkaProducer kafkaProducer;
+
 
     // 서비스 상태 확인
     @GetMapping("/status")
@@ -49,6 +52,10 @@ public class OrderController {
         if (createOrder == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+
+        /* send this order to the kafka */
+        kafkaProducer.send("example-catalog-topic",orderDTO);
+
 
         ResponseOrderDTO result = ResponseOrderDTO.builder()
                 .productId(createOrder.getProductId())

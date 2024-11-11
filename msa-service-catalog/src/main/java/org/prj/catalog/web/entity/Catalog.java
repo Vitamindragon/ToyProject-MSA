@@ -10,6 +10,7 @@ import java.util.Date;
 import static javax.persistence.GenerationType.*;
 
 @Getter
+@Table(name = "catalog")
 @Entity
 public class Catalog {
     @Id
@@ -28,4 +29,9 @@ public class Catalog {
     @Column(nullable = false, updatable = false, insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdAt;
+
+
+    public void updateStock(Integer qty) {
+        this.stock -=qty;
+    }
 }
