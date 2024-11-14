@@ -19,18 +19,20 @@ public class ResponseOrderDTO {
     private Date createdAt;
 
     private String orderId;
+    private String userId;
 
-    public static ResponseOrderDTO createOrderDTO(String productId, Integer qty, Integer unitPrice, Integer totalPrice, Date createdAt, String orderId) {
-        return new ResponseOrderDTO(productId, qty, unitPrice, totalPrice, createdAt, orderId);
+    public static ResponseOrderDTO createOrderDTO(String productId, Integer qty, Integer unitPrice, Integer totalPrice, Date createdAt, String orderId, String userId) {
+        return new ResponseOrderDTO(productId, qty, unitPrice, totalPrice, createdAt, orderId, userId);
 
     }
 
-    public ResponseOrderDTO(String productId, Integer qty, Integer unitPrice, Integer totalPrice, Date createdAt, String orderId) {
+    public ResponseOrderDTO(String productId, Integer qty, Integer unitPrice, Integer totalPrice, Date createdAt, String orderId, String userId) {
         this.productId = productId;
         this.qty = qty;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
         this.orderId = orderId;
+        this.userId = userId;
     }
 }

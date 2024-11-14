@@ -2,6 +2,7 @@ package org.prj.order.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.prj.order.message.queue.KafkaProducer;
+import org.prj.order.message.queue.OrderProducer;
 import org.prj.order.web.dto.RequestOrderDTO;
 import org.prj.order.web.dto.ResponseOrderDTO;
 import org.prj.order.web.entity.Order;
@@ -23,6 +24,7 @@ public class OrderController {
     private final Environment env;
     private final OrderService orderService;
     private final KafkaProducer kafkaProducer;
+    private final OrderProducer orderProducer;
 
 
     // 서비스 상태 확인
@@ -48,23 +50,42 @@ public class OrderController {
                 .orderId(randomUUID().toString())
                 .build();
 
-        Order createOrder = orderService.createOrder(order).orElse(null);
-        if (createOrder == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
-        /* send this order to the kafka */
-        kafkaProducer.send("example-catalog-topic",orderDTO);
+///*001.JPA 처리(단일 서버)*/
+//        Order createOrder = orderService.createOrder(order).orElse(null);
+//        if (createOrder == null) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//
+//        /* send this order to the kafka */
+//        kafkaProducer.send("example-catalog-topic",orderDTO);
+//
+//
+//        ResponseOrderDTO result = ResponseOrderDTO.builder()
+//                .productId(createOrder.getProductId())
+//                .qty(createOrder.getQty())
+//                .unitPrice(createOrder.getUnitPrice())
+//                .totalPrice(createOrder.getTotalPrice())
+//                .createdAt(createOrder.getCreatedAt())
+//                .orderId(createOrder.getOrderId())
+//                .build();
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
 
         ResponseOrderDTO result = ResponseOrderDTO.builder()
-                .productId(createOrder.getProductId())
-                .qty(createOrder.getQty())
-                .unitPrice(createOrder.getUnitPrice())
-                .totalPrice(createOrder.getTotalPrice())
-                .createdAt(createOrder.getCreatedAt())
-                .orderId(createOrder.getOrderId())
+                .productId(order.getProductId())
+                .qty(order.getQty())
+                .unitPrice(order.getUnitPrice())
+                .totalPrice(order.getTotalPrice())
+                .createdAt(order.getCreatedAt())
+                .orderId(order.getOrderId())
+                .userId(order.getUserId())
                 .build();
+
+        /* send this order to the kafka */
+        kafkaProducer.send("example-catalog-topic",result); //catalog 서비스에 전송
+        orderProducer.send("orders",result);
+
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -81,7 +102,8 @@ public class OrderController {
                                 v.getUnitPrice(),
                                 v.getTotalPrice(),
                                 v.getCreatedAt(),
-                                v.getOrderId())
+                                v.getOrderId(),
+                                v.getUserId())
                 )
         );
         

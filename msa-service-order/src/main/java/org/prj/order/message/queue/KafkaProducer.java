@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prj.order.web.dto.RequestOrderDTO;
+import org.prj.order.web.dto.ResponseOrderDTO;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class KafkaProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper mapper;
 
-    public void send(String topic, RequestOrderDTO orderDto) {
+    public void send(String topic, ResponseOrderDTO orderDto) {
         String jsonInString = "";
         try {
             jsonInString = mapper.writeValueAsString(orderDto);
